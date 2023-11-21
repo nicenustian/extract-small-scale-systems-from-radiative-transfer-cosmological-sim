@@ -114,3 +114,41 @@ void dfs(int i, int j, int k, int current_label, bool *data, int *labels, const 
 	Radiation field Gamma
 	HI enutral fraction HI_delta
 	HI column densities NHI
+
+
+```cpp
+
+  //find the location of maximum in NHI which serves as the center of a system
+  find_argmax(nHI_cube, labels_cube, nHI_max, comp,  xi, yi, zi, NGRID,  NGRIDR,  NSLICE);
+
+  //find the gas mass for each system in solar mass
+  find_total( rhog_cube, labels_cube, mass, comp, dV_proper/SOLARTOGRAMS, NGRIDR);
+
+  //find the dark matter mass for each system in solar mass
+  find_total( dm_cube, labels_cube, dm_mass, comp, dm_particle_mass, NGRIDR);
+
+  //the sizes of systems in pixels. dV is in units of [kpc/h]^3 comoving
+  cout<<" DV factor=" <<dV_comov*1e9<<endl;
+  find_size(labels_cube, size, comp, dV_comov*1e9, NGRIDR);
+
+  //The nHI weighted quantities and column densitites
+  skewers(delta_cube, temp_cube, nHI_cube, xHI_cube, gammaHI_cube,
+             delta_w, temp_w, NHI, xHI_delta_w, gamma_w,
+             labels_cube, comp, sk, xi, yi, zi, dx_proper, NGRID, NSLICE);
+
+  find_max(ratio_cube, labels_cube, ratio_max, comp, NGRIDR);
+
+  for (int i = 0; i < comp; i++){
+ 	 if (i<100){
+		cout<<"x,y,z="<<xi[i]<<","<<yi[i]<<","<<zi[i]<<"\t"
+		     <<"log Mass[solar]="<<log10(mass[i])<<"log Mass_dm[solar]="<<log10(dm_mass[i])<<"\t"<<"ratio="<<mass[i]/dm_mass[i];
+		     <<"Size [kpc/h]^3="<<size[i]<<"\t"
+		     <<"temp ="<<temp_w[i]<<"\t"
+		     <<"gamma ="<<gamma_w[i]<<"\t"
+		     <<"xHI_delta ="<<xHI_delta_w[i]<<"\t"
+		     <<"delta="<<delta_w[i]<<"\t"
+		     <<"NHI="<<NHI[i]<<"\t"
+		     <<"P/R="<<ratio_max[i]<<endl;
+		}
+
+```
