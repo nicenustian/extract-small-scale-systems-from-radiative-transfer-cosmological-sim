@@ -152,3 +152,152 @@ void dfs(int i, int j, int k, int current_label, bool *data, int *labels, const 
 		}
 
 ```
+
+
+Derived quantites over skewers through the cube.
+
+```cpp
+
+/*get weighted average quantity over the skewers  for each systems, 
+such as HI clumn density and cosmic density*/
+void skewers (float *delta, float *temp, float *nHI, float *xHI, float *gamma, 
+             double *delta_w, double *temp_w, double *NHI, double *xHI_delta_w, double *gamma_w,
+	     int *labels, int comp, int sk, int *x, int *y, int *z, double dx, const long NGRID, const long NSLICE)
+{
+
+	int index, index_x, index_y, index_z, j;
+    double *theta, *phi, *vecx, *vecy, *vecz;
+	double delta_sum, temp_sum, gamma_sum, xHI_delta_sum,  nHI_sum;
+	bool flag;
+
+    theta = new double [sk];
+	phi   = new double [sk];
+	vecx = new double [sk];
+	vecy = new double [sk];
+	vecz = new double [sk];
+
+	//set the seed to keep same results every time
+	srand(1234);
+        for (int i=0;i<sk;i++)
+        {
+                theta[i] =  ((double) rand() / RAND_MAX)*M_PI;
+                phi[i]   =  ((double) rand() / RAND_MAX)*2*M_PI;
+
+                //unit vector in random direction
+                vecx[i] = cos(phi[i])*sin(theta[i]);
+                vecy[i] = sin(phi[i])*sin(theta[i]);
+                vecz[i] = cos(theta[i]);
+        }
+
+         //loop over the number of objects
+        for (int ob=0; ob<comp; ob++ )
+        {
+                //loop over N skewers starting from peak given by (x, y, z) of each object
+                for (int i=0; i<sk; i++)
+                {
+                	j = 0; 
+			flag = true;
+			
+			delta_sum = 0;
+			temp_sum=0;
+			gamma_sum=0;
+			nHI_sum=0;
+			xHI_delta_sum=0;
+
+			//set the peak in absorbers as a starting point
+                        index_x = x[ob];
+			index_y = y[ob]; 
+			index_z = z[ob];
+
+            index = index_z*NGRID*NSLICE + index_y*NSLICE + index_x;
+
+			//do the positive and then negative directions of unit vector to complete a skewer spreading across boundary through the center.
+			//positive unit vector direction
+			//cout <<" positive" << endl;
+            while ( flag  && 
+				index_x>=0 && 
+				index_x<NGRID && 
+				index_y>=0 && 
+				index_y<NGRID &&  
+				index_z>=0 && 
+				index_z<NGRID )
+                        {
+				if (labels[index]>0)
+				{
+					nHI_sum += nHI[index];
+
+					//nHI weighted quantities
+					delta_sum += (nHI[index] * delta[index]);
+					temp_sum += (nHI[index] * temp[index]);
+					gamma_sum += (nHI[index] * gamma[index]);
+					xHI_delta_sum += (nHI[index] * xHI[index]);///delta[index]);
+
+  
+					++j;
+                	                //the next index of current skewer
+                        	        index_x = ( vecx[i]*j  + x[ob] );  
+					index_y = ( vecy[i]*j  + y[ob] );  
+					index_z = ( vecz[i]*j  + z[ob] );
+                                	index = index_z*NGRID*NSLICE + index_y*NSLICE + index_x;
+				}
+
+				else flag=false;
+                        }
+
+			j=1; 
+			flag=true;
+                        index_x = ( -vecx[i]*j  + x[ob] );  
+			index_y = ( -vecy[i]*j  + y[ob] );  
+			index_z = ( -vecz[i]*j  + z[ob] );
+                        index = index_z*NGRID*NSLICE + index_y*NSLICE + index_x;
+
+			//cout <<" negative" << endl;
+       			//negative unit direction
+			while (flag && 
+				index_x>=0 && 
+				index_x<NGRID && 
+				index_y>0 && 
+				index_y<NGRID && 
+				index_z>=0 && 
+				index_z<NGRID)
+                        {
+				if (labels[index]>0)
+				{
+
+					nHI_sum += nHI[index];
+
+					delta_sum += (nHI[index] * delta[index]);
+					temp_sum += (nHI[index] * temp[index]);
+					gamma_sum += (nHI[index] * gamma[index]);
+					xHI_delta_sum += (nHI[index] * xHI[index]);///delta[index]);
+
+        	                        ++j;
+                	                //the staring index of current skewer
+                        	        index_x = ( -vecx[i]*j  + x[ob] );  
+					index_y = ( -vecy[i]*j  + y[ob] );  
+					index_z = ( -vecz[i]*j  + z[ob] );
+                                	index = index_z*NGRID*NSLICE + index_y*NSLICE + index_x;
+				}
+
+				else flag=false;
+                        }
+
+			delta_w[ob] += (delta_sum/nHI_sum);
+			temp_w[ob] += (temp_sum/nHI_sum);
+			gamma_w[ob] += (gamma_sum/nHI_sum);
+			xHI_delta_w[ob] += (xHI_delta_sum/nHI_sum);
+			NHI[ob] += (nHI_sum * dx);
+
+
+		}//skewer loop
+		//the average over sk skewers 
+		 delta_w[ob] /= sk;
+                 temp_w[ob] /= sk;
+                 gamma_w[ob] /= sk;
+                 xHI_delta_w[ob] /= sk;
+                 NHI[ob] /= sk;
+
+	}//object loop
+
+
+```
