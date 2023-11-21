@@ -8,7 +8,7 @@ The main function which performs these functions
 
 
   ```cpp
-infile  = fopen(gammagridfilename.c_str(),"rb");
+  infile  = fopen(gammagridfilename.c_str(),"rb");
   cout<<"Reading file "<<gammagridfilename.c_str()<< endl;
   fread(gammaHI_cube, sizeof(float), NGRIDR, infile);
   cout << gammaHI_cube[0] <<" "<<gammaHI_cube[NGRIDR-1] << endl;
