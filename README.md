@@ -301,3 +301,27 @@ void skewers (float *delta, float *temp, float *nHI, float *xHI, float *gamma,
 
 
 ```
+
+
+## Citation 
+```
+@ARTICLE{2021ApJ...923..161N,
+       author = {{Nasir}, Fahad and {Cain}, Christopher and {D'Aloisio}, Anson and {Gangolli}, Nakul and {McQuinn}, Matthew},
+        title = "{Hydrodynamic Response of the Intergalactic Medium to Reionization. II. Physical Characteristics and Dynamics of Ionizing Photon Sinks}",
+      journal = {\apj},
+     keywords = {813, 1383, Astrophysics - Cosmology and Nongalactic Astrophysics},
+         year = 2021,
+        month = dec,
+       volume = {923},
+       number = {2},
+          eid = {161},
+        pages = {161},
+          doi = {10.3847/1538-4357/ac2eb9},
+archivePrefix = {arXiv},
+       eprint = {2108.04837},
+ primaryClass = {astro-ph.CO},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2021ApJ...923..161N},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+```
