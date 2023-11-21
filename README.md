@@ -7,7 +7,8 @@ The main function which performs these functions
     numbers densities of HI and HII and ne
 
 
-  c```infile  = fopen(gammagridfilename.c_str(),"rb");
+  ```cpp
+infile  = fopen(gammagridfilename.c_str(),"rb");
   cout<<"Reading file "<<gammagridfilename.c_str()<< endl;
   fread(gammaHI_cube, sizeof(float), NGRIDR, infile);
   cout << gammaHI_cube[0] <<" "<<gammaHI_cube[NGRIDR-1] << endl;
@@ -35,7 +36,8 @@ The main function which performs these functions
   fread(nHII_cube, sizeof(float), NGRIDR, infile);
   fseek ( infile, 5*NGRID3D*4, SEEK_SET );
   fread(ne_cube, sizeof(float), NGRIDR, infile);  
-  fclose(infile);```
+  fclose(infile);
+```
 
 
     
