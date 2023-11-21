@@ -3,9 +3,9 @@
 The main function which performs these functions 
 
 ## 1)  Reads the data cubes from Radiative Transfer Hydrodynamical simulation 
-    the data cubes are Dark matter, Gas mass, temperature, 
-    numbers densities of HI and HII and ne
 
+The data cubes are Dark matter, Gas mass, temperature, 
+numbers densities of HI and HII and ne
 
   ```cpp
   infile  = fopen(gammagridfilename.c_str(),"rb");
@@ -42,7 +42,7 @@ The main function which performs these functions
 
     
     
-## 2) ## Find systems using 4-pixels connectivity in the data cube
+## 2) Find systems using 4-pixels connectivity in the data cube
 
 ```cpp
   comp = find_systems(xHI_cube, labels_cube, threshold, NGRID, NGRIDR, NSLICE);
@@ -104,7 +104,7 @@ void dfs(int i, int j, int k, int current_label, bool *data, int *labels, const 
 ```
 
 
-# 3) Calculate several quantites from these systems
+## 3) Calculate several quantites from these systems
 
 	Position of maximum in HI field
 	Total Mass
@@ -154,7 +154,7 @@ void dfs(int i, int j, int k, int current_label, bool *data, int *labels, const 
 ```
 
 
-## 4) Quantites over skewers through the cube.
+## 4) Quantities over skewers through the cube.
 
 ```cpp
 
