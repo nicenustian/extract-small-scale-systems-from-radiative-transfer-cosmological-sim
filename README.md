@@ -1,5 +1,9 @@
 # extract-small-scale-systems-from-radiative-transfer-cosmological-sim
 
+
+![Screenshot 2023-11-21 at 11 55 12](https://github.com/nicenustian/extract-small-scale-systems-from-radiative-transfer-cosmological-sim/assets/111900566/81ca1877-0222-4811-9b9f-b53093c14e69)
+
+
 The main function which performs these functions 
 
 ## 1)  Reads the data cubes from Radiative Transfer Hydrodynamical simulation 
